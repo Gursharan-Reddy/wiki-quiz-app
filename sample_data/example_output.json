@@ -1,0 +1,114 @@
+{
+    "id": 3,
+    "url": "https://en.wikipedia.org/wiki/Steve_Jobs",
+    "title": "Steve Jobs",
+    "summary": "Steve Jobs was a pioneer of the personal computer revolution, co-founding Apple Inc. and NeXT, and leading the development of innovative products like the Macintosh and iPhone.",
+    "key_entities": {
+        "people": [
+            "Steve Jobs",
+            "Steve Wozniak",
+            "John Sculley",
+            "Jony Ive",
+            "Edwin Land",
+            "Abdulfattah Jandali",
+            "Joanne Schieble",
+            "Paul Reinhold Jobs",
+            "Clara Hagopian",
+            "Chrisann Brennan"
+        ],
+        "organizations": [
+            "Apple Inc.",
+            "NeXT",
+            "Pixar",
+            "Lucasfilm",
+            "Gap Inc.",
+            "Hewlett-Packard"
+        ],
+        "locations": [
+            "San Francisco",
+            "India",
+            "Wisconsin",
+            "Green Bay",
+            "Mountain View",
+            "California",
+            "Los Altos",
+            "Cupertino",
+            "Beirut"
+        ]
+    },
+    "sections": [
+        "Early life",
+        "Family",
+        "Infancy",
+        "Childhood",
+        "Homestead High"
+    ],
+    "quiz": [
+        {
+            "question": "What was the name of the computer that Steve Wozniak designed, which led to the founding of Apple?",
+            "options": [
+                "Apple I",
+                "Apple II",
+                "Macintosh",
+                "Lisa"
+            ],
+            "answer": "Apple I",
+            "difficulty": "easy",
+            "explanation": "The Apple I was the first computer designed by Steve Wozniak, and it was the catalyst for the founding of Apple Computer."
+        },
+        {
+            "question": "What was the name of the company that Steve Jobs founded after leaving Apple in 1985?",
+            "options": [
+                "NeXT",
+                "Pixar",
+                "Apple",
+                "Macintosh"
+            ],
+            "answer": "NeXT",
+            "difficulty": "medium",
+            "explanation": "After leaving Apple, Steve Jobs founded NeXT, a computer platform development company that specialized in computers for higher-education and business markets."
+        },
+        {
+            "question": "What was the name of the first computer-animated feature film produced by Pixar, which was acquired by Steve Jobs in 1986?",
+            "options": [
+                "Toy Story",
+                "The Incredibles",
+                "Finding Nemo",
+                "Monsters, Inc."
+            ],
+            "answer": "Toy Story",
+            "difficulty": "medium",
+            "explanation": "Toy Story was the first computer-animated feature film produced by Pixar, which was acquired by Steve Jobs in 1986."
+        },
+        {
+            "question": "What was the name of the advertising campaign launched by Apple in 1997, during Steve Jobs' second tenure as CEO?",
+            "options": [
+                "Think different",
+                "Think outside the box",
+                "Think Apple",
+                "Think innovative"
+            ],
+            "answer": "Think different",
+            "difficulty": "easy",
+            "explanation": "The 'Think different' campaign was launched by Apple in 1997, during Steve Jobs' second tenure as CEO, and it became one of the most iconic advertising campaigns in history."
+        },
+        {
+            "question": "What was the name of the disease that Steve Jobs was diagnosed with in 2003, which ultimately led to his death in 2011?",
+            "options": [
+                "Pancreatic cancer",
+                "Pancreatic neuroendocrine tumor",
+                "Diabetes",
+                "Liver disease"
+            ],
+            "answer": "Pancreatic neuroendocrine tumor",
+            "difficulty": "hard",
+            "explanation": "Steve Jobs was diagnosed with a pancreatic neuroendocrine tumor in 2003, which is a rare type of pancreatic cancer that is typically slower-growing than other forms of pancreatic cancer."
+        }
+    ],
+    "related_topics": [
+        "The History of Apple Inc.",
+        "The Development of the Personal Computer",
+        "The Impact of Steve Jobs on Modern Technology"
+    ],
+    "created_at": "2026-01-08T21:27:40.113365+05:30"
+}
