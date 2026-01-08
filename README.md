@@ -49,7 +49,7 @@ Groq (Llama 3.3)
 
 Make sure the following are installed and running:
 
-Node.js (for frontend)
+React.js (for frontend)
 
 Python 3.10+
 
