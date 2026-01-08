@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Layout } from 'lucide-react';
+import { Layout, Loader2, BookOpen } from 'lucide-react'; // Added icons back
 import QuizCard from './components/QuizCard';
 import HistoryTable from './components/HistoryTable';
-import './App.css'; // Make sure this import is here!
+import './App.css';
 
 function App() {
   const [url, setUrl] = useState('');
@@ -83,18 +83,30 @@ function App() {
                 onClick={handleGenerate}
                 disabled={loading || !url}
                 className="generate-btn"
+                style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
               >
-                {loading ? "Generating..." : "Generate"}
+                {loading ? (
+                  <>
+                    <Loader2 size={20} className="spinner" /> Generating...
+                  </>
+                ) : (
+                  "Generate"
+                )}
               </button>
             </div>
 
-            {error && <div className="error-msg" style={{color: 'red', textAlign:'center', marginTop:'1rem'}}>{error}</div>}
+            {error && <div className="error-msg" style={{color: '#dc2626', textAlign:'center', marginTop:'1rem', padding: '1rem', background: '#fee2e2', borderRadius: '8px'}}>{error}</div>}
 
             {quizData && (
-              <div style={{ marginTop: '2rem' }}>
+              <div style={{ marginTop: '2rem' }} className="fade-in">
+                
+                {/* Summary Section with Icon */}
                 <div className="summary-box">
-                  <h3>Summary</h3>
-                  <p>{quizData.summary}</p>
+                  <div className="summary-header">
+                    <BookOpen size={24} />
+                    <h3>Summary</h3>
+                  </div>
+                  <p className="summary-text">{quizData.summary}</p>
                 </div>
 
                 <div className="quiz-container">
