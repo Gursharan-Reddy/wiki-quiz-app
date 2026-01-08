@@ -1,148 +1,148 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { BookOpen, BrainCircuit, Loader2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Loader2, BookOpen, History, Layout } from 'lucide-react';
 import QuizCard from './components/QuizCard';
 import HistoryTable from './components/HistoryTable';
-import Modal from './components/Modal';
 import './App.css';
 
-const API_URL = "http://localhost:8000/api";
-
 function App() {
-  const [activeTab, setActiveTab] = useState('generate');
   const [url, setUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [quizData, setQuizData] = useState(null);
-  const [history, setHistory] = useState([]);
   const [error, setError] = useState(null);
-  const [selectedHistoryItem, setSelectedHistoryItem] = useState(null);
-
-  useEffect(() => {
-    fetchHistory();
-  }, []);
-
-  const fetchHistory = async () => {
-    try {
-      const res = await axios.get(`${API_URL}/history`);
-      setHistory(res.data);
-    } catch (err) {
-      console.error("Failed to fetch history");
-    }
-  };
+  const [activeTab, setActiveTab] = useState('quiz'); // 'quiz' or 'history'
 
   const handleGenerate = async () => {
-    if (!url.includes('wikipedia.org')) {
-      setError("Please enter a valid Wikipedia URL.");
-      return;
-    }
+    if (!url) return;
     setLoading(true);
     setError(null);
     setQuizData(null);
-    
+
     try {
-      const res = await axios.post(`${API_URL}/generate`, { url });
-      setQuizData(res.data);
-      fetchHistory();
+      // UPDATED: Using your live Render Backend URL
+      const response = await fetch('https://wiki-quiz-app-6iaz.onrender.com/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate quiz');
+      }
+
+      const data = await response.json();
+      setQuizData(data);
     } catch (err) {
-      setError("Failed to generate quiz. Ensure the backend is running.");
+      setError(err.message);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="app-container">
-      <header className="header">
-        <BrainCircuit size={32} color="#2563eb" />
-        <h1>WikiQuiz AI</h1>
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
+      {/* Header */}
+      <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
+        <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2 text-blue-600">
+            <Layout className="w-6 h-6" />
+            <h1 className="text-xl font-bold tracking-tight">WikiQuiz AI</h1>
+          </div>
+          
+          <nav className="flex gap-1 bg-slate-100 p-1 rounded-lg">
+            <button 
+              onClick={() => setActiveTab('quiz')}
+              className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
+                activeTab === 'quiz' 
+                  ? 'bg-white text-blue-600 shadow-sm' 
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              New Quiz
+            </button>
+            <button 
+              onClick={() => setActiveTab('history')}
+              className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
+                activeTab === 'history' 
+                  ? 'bg-white text-blue-600 shadow-sm' 
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              Past Quizzes
+            </button>
+          </nav>
+        </div>
       </header>
 
-      <div className="tabs">
-        <button 
-          className={`tab-btn ${activeTab === 'generate' ? 'active' : ''}`}
-          onClick={() => setActiveTab('generate')}
-        >
-          Generate Quiz
-        </button>
-        <button 
-          className={`tab-btn ${activeTab === 'history' ? 'active' : ''}`}
-          onClick={() => setActiveTab('history')}
-        >
-          Past Quizzes
-        </button>
-      </div>
+      <main className="max-w-3xl mx-auto px-6 py-12">
+        
+        {/* TAB 1: GENERATE QUIZ */}
+        {activeTab === 'quiz' && (
+          <div className="space-y-8">
+            <div className="text-center space-y-4">
+              <h2 className="text-4xl font-extrabold text-slate-900 tracking-tight">
+                Turn Wikipedia into a <span className="text-blue-600">Quiz</span>
+              </h2>
+              <p className="text-lg text-slate-600 max-w-xl mx-auto">
+                Paste any Wikipedia article URL below and our AI will generate a unique interactive quiz instantly.
+              </p>
+            </div>
 
-      {activeTab === 'generate' && (
-        <>
-          <div className="input-section">
-            <label>Wikipedia Article URL</label>
-            <div className="input-group">
-              <input 
-                type="text" 
-                className="url-input"
-                placeholder="https://en.wikipedia.org/wiki/Steve_Jobs"
+            <div className="bg-white p-2 rounded-xl shadow-sm border border-slate-200 flex gap-2">
+              <input
+                type="url"
+                placeholder="https://en.wikipedia.org/wiki/..."
+                className="flex-1 px-4 py-3 rounded-lg bg-transparent focus:outline-none text-slate-700 placeholder:text-slate-400"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
               />
-              <button 
-                className="generate-btn" 
+              <button
                 onClick={handleGenerate}
-                disabled={loading}
+                disabled={loading || !url}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
-                {loading ? <Loader2 className="spin" size={20}/> : "Generate"}
+                {loading ? <Loader2 className="animate-spin w-5 h-5" /> : "Generate"}
               </button>
             </div>
-            {error && <p className="error-msg">{error}</p>}
-          </div>
 
-          {quizData && (
-            <div className="results-section">
-              <div className="summary-card">
-                <h2>{quizData.title}</h2>
-                <p>{quizData.summary}</p>
-                
-                <div className="entities-grid">
-                  <div className="entity-box people">
-                    <strong>People:</strong> {quizData.key_entities.people?.join(", ")}
+            {error && (
+              <div className="p-4 bg-red-50 text-red-700 rounded-lg border border-red-100 text-center">
+                {error}
+              </div>
+            )}
+
+            {quizData && (
+              <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                  <div className="flex items-center gap-3 mb-4 text-blue-600">
+                    <BookOpen className="w-5 h-5" />
+                    <h3 className="font-semibold text-lg">Summary</h3>
                   </div>
-                  <div className="entity-box orgs">
-                    <strong>Orgs:</strong> {quizData.key_entities.organizations?.join(", ")}
-                  </div>
-                  <div className="entity-box locs">
-                    <strong>Locations:</strong> {quizData.key_entities.locations?.join(", ")}
-                  </div>
+                  <p className="text-slate-600 leading-relaxed">{quizData.summary}</p>
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-slate-900 px-2">Quiz Questions</h3>
+                  {quizData.quiz.map((q, i) => (
+                    <QuizCard key={i} question={q} index={i} />
+                  ))}
                 </div>
               </div>
+            )}
+          </div>
+        )}
 
-              <h3 className="section-title">Quiz Questions</h3>
-              {quizData.quiz.map((q, idx) => (
-                <QuizCard key={idx} question={q} index={idx} />
-              ))}
-
-              <h3 className="section-title">Related Topics</h3>
-              <div className="topics-list">
-                {quizData.related_topics.map((t, i) => (
-                  <span key={i} className="topic-tag">{t}</span>
-                ))}
-              </div>
+        {/* TAB 2: HISTORY */}
+        {activeTab === 'history' && (
+          <div className="space-y-6">
+             <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-slate-900">Your Quiz History</h2>
+              <p className="text-slate-500 mt-2">Revisit your past generated quizzes</p>
             </div>
-          )}
-        </>
-      )}
+            <HistoryTable />
+          </div>
+        )}
 
-      {activeTab === 'history' && (
-        <HistoryTable 
-          history={history} 
-          onView={(item) => setSelectedHistoryItem(item)} 
-        />
-      )}
-
-      {selectedHistoryItem && (
-        <Modal 
-          data={selectedHistoryItem} 
-          onClose={() => setSelectedHistoryItem(null)} 
-        />
-      )}
+      </main>
     </div>
   );
 }
